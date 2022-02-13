@@ -35,7 +35,13 @@ function Start({ onClick }) {
             Jadon Leininger
           </a>
         </p>
-        <a href="/">Github</a>
+        <a
+          href="https://github.com/jleininger/singularity"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Source
+        </a>
       </footer>
     </div>
   );
