@@ -30,16 +30,16 @@ function IntroText({ breakpoints = [260, 160], onTextChange }) {
         <TextFade
           position={[0, 0, 200]}
           fadeIn
-          fontSize={7}
-          text="Keep going"
+          fontSize={6}
+          text="In every death..."
         />
       ) : null}
       {showText2 ? (
         <TextFade
           position={[0, 0, 100]}
           fadeIn
-          fontSize={7}
-          text="Almost there"
+          fontSize={6}
+          text="There is new life."
         />
       ) : null}
     </>
