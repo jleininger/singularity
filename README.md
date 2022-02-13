@@ -1,6 +1,6 @@
 # Singularity
 
-## [Finished Product](singularity.jadonl.com)
+## [Finished Product](http://singularity.jadonl.com)
 
 Small project to try out the [react-three-fiber](https://github.com/pmndrs/react-three-fiber) library.
 
