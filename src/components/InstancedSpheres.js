@@ -15,6 +15,7 @@ function InstancedSpheres({
   onEnded = () => {},
 }) {
   const meshRef = useRef();
+  const hoveredDots = useRef([]);
   const activeDots = useRef([]);
   const firstPass = useRef(true);
   const [sphereGeometry] = useState(
@@ -59,6 +60,10 @@ function InstancedSpheres({
       let adjustedScale =
         activeDots.current.includes(i) && freqAvg > 0 ? update() / 10 : scale;
 
+      if (hoveredDots.current.includes(i)) {
+        adjustedScale = adjustedScale * 2;
+      }
+
       const position =
         !firstPass.current && freqAvg === 0
           ? targetPos.lerp(finalPos, lerpSpeed)
@@ -76,6 +81,12 @@ function InstancedSpheres({
     <instancedMesh
       ref={meshRef}
       args={[sphereGeometry, material, amount]}
+      onPointerEnter={({ instanceId }) => {
+        hoveredDots.current.push(instanceId);
+      }}
+      onPointerLeave={({ instanceId }) => {
+        hoveredDots.current.splice(hoveredDots.current.indexOf(instanceId), 1);
+      }}
       onClick={({ instanceId }) => {
         if (activeDots.current.includes(instanceId)) {
           activeDots.current.splice(activeDots.current.indexOf(instanceId), 1);
