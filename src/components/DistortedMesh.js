@@ -1,6 +1,6 @@
 import { Icosahedron, MeshDistortMaterial } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Vector3 } from "three";
 import useAudio from "../hooks/useAudio";
 import AudioSource from "./AudioSource";
@@ -15,14 +15,19 @@ function DistortedMesh({
 }) {
   const ref = useRef(null);
   const shrink = useRef(false);
+  const [hover, setHover] = useState(false);
+  const [clickEnabled, setClickEnabled] = useState(false);
   const { update, source } = useAudio(audioUrl, 0, false, true);
   const handleEnded = useCallback(() => {
     source.stop();
     onAudioEnded();
-  }, [onAudioEnded, source]);
+    setClickEnabled(true);
+  }, [onAudioEnded, source, setClickEnabled]);
   const handleOnClick = useCallback(() => {
-    shrink.current = true;
-  }, []);
+    if (clickEnabled) {
+      shrink.current = true;
+    }
+  }, [clickEnabled]);
 
   useFrame(() => {
     if (playAudio) {
@@ -49,6 +54,8 @@ function DistortedMesh({
   return (
     <Icosahedron
       ref={ref}
+      onPointerEnter={() => setHover(true)}
+      onPointerLeave={() => setHover(false)}
       onClick={handleOnClick}
       castShadow
       receiveShadow
@@ -57,7 +64,7 @@ function DistortedMesh({
     >
       <MeshDistortMaterial
         attach="material"
-        color="#00ff00"
+        color={hover ? "#55ff55" : "#00ff00"}
         toneMapped={false}
       />
       <AudioSource
